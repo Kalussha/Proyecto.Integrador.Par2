@@ -25,31 +25,67 @@
     <!-- Menu de opciones, igual que los botones del form principal -->
     <div class="menu-grid">
         <a href="@Url.Action("Alta", "Coches")" class="menu-card">
+            <!-- Opcion 1: Con emoji (actual) -->
             <div class="card-icon">??</div>
+            
+            <!-- Opcion 2: Con imagen (descomenta cuando tengas la imagen)
+            <div class="card-icon">
+                <img src="~/images/icono-alta.png" alt="Alta" class="icon-img" />
+            </div>
+            -->
+            
             <h3>ALTA</h3>
             <p>Registrar nuevo vehículo</p>
         </a>
 
         <a href="@Url.Action("Baja", "Coches")" class="menu-card">
             <div class="card-icon">???</div>
+            
+            <!-- Con imagen:
+            <div class="card-icon">
+                <img src="~/images/icono-baja.png" alt="Baja" class="icon-img" />
+            </div>
+            -->
+            
             <h3>BAJA</h3>
             <p>Eliminar vehículo</p>
         </a>
 
         <a href="@Url.Action("Cambios", "Coches")" class="menu-card">
             <div class="card-icon">??</div>
+            
+            <!-- Con imagen:
+            <div class="card-icon">
+                <img src="~/images/icono-cambios.png" alt="Cambios" class="icon-img" />
+            </div>
+            -->
+            
             <h3>CAMBIOS</h3>
             <p>Modificar datos de vehículo</p>
         </a>
 
         <a href="@Url.Action("Consultar", "Coches")" class="menu-card">
             <div class="card-icon">??</div>
+            
+            <!-- Con imagen:
+            <div class="card-icon">
+                <img src="~/images/icono-consultar.png" alt="Consultar" class="icon-img" />
+            </div>
+            -->
+            
             <h3>CONSULTAR</h3>
             <p>Buscar vehículo por placa</p>
         </a>
 
         <a href="@Url.Action("Listado", "Coches")" class="menu-card">
             <div class="card-icon">??</div>
+            
+            <!-- Con imagen:
+            <div class="card-icon">
+                <img src="~/images/icono-listado.png" alt="Listado" class="icon-img" />
+            </div>
+            -->
+            
             <h3>LISTADO</h3>
             <p>Ver todos los vehículos</p>
         </a>
@@ -63,6 +99,12 @@
         margin: 50px auto;
         padding: 20px;
         text-align: center;
+        
+        /* Opcion: Agregar imagen de fondo
+        background-image: url('/images/fondo-coches.jpg');
+        background-size: cover;
+        background-position: center;
+        */
     }
 
     .menu-principal h1 {
@@ -102,6 +144,13 @@
     .card-icon {
         font-size: 4em;
         margin-bottom: 20px;
+    }
+
+    /* Estilos para imagenes en los iconos */
+    .icon-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
     }
 
     .menu-card h3 {
