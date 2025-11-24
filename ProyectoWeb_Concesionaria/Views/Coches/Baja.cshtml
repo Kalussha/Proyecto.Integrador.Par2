@@ -1,0 +1,206 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Baja de Vehículo";
+}
+
+<!-- Form de baja, reemplaza al frmbaja de windows forms -->
+<div class="form-container">
+    <h2>??? Eliminar Vehículo</h2>
+    <a href="@Url.Action("Index", "Coches")" class="btn-back">? Regresar al Menú</a>
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Exito"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (ViewBag.CocheAEliminar == null)
+    {
+        <!-- Formulario pa buscar la placa -->
+        <form method="post" asp-action="Baja" class="form-baja">
+            <div class="form-group">
+                <label for="placa">Placa del Vehículo a Eliminar:</label>
+                <input type="text" id="placa" name="placa" class="form-control" required maxlength="10" placeholder="Ingrese la placa" />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger">?? Buscar</button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <!-- Mostramos los datos del coche a eliminar y pedimos confirmacion -->
+        var coche = ViewBag.CocheAEliminar;
+        <div class="confirmacion-box">
+            <h3>?? ¿Está seguro que desea eliminar este vehículo?</h3>
+            
+            <div class="datos-coche">
+                <p><strong>Placa:</strong> @coche.Placa</p>
+                <p><strong>Marca:</strong> @coche.Marca</p>
+                <p><strong>Modelo:</strong> @coche.Modelo</p>
+                <p><strong>Año:</strong> @coche.Anio</p>
+                <p><strong>Tipo:</strong> @coche.Tipo</p>
+            </div>
+
+            <form method="post" asp-action="Baja" class="form-confirmacion">
+                <input type="hidden" name="placa" value="@coche.Placa" />
+                <input type="hidden" name="confirmar" value="SI" />
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-danger">? SÍ, Eliminar</button>
+                    <a href="@Url.Action("Baja")" class="btn btn-secondary">? NO, Cancelar</a>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+
+<style>
+    /* estilos pa el formulario de baja */
+    .form-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #e74c3c;
+    }
+
+    .confirmacion-box {
+        background-color: #fff3cd;
+        border: 2px solid #ffc107;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .confirmacion-box h3 {
+        color: #856404;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .datos-coche {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .datos-coche p {
+        margin: 10px 0;
+        font-size: 1.1em;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>

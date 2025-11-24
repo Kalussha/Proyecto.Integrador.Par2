@@ -1,0 +1,201 @@
+@model List<ProyectoWeb_Concesionaria.Models.Coche>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listado de Vehículos";
+}
+
+<!-- Vista de listado completo, adicional a las funciones de windows forms -->
+<div class="listado-container">
+    <h2>?? Listado de Todos los Vehículos</h2>
+    <a href="@Url.Action("Index", "Coches")" class="btn-back">? Regresar al Menú</a>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="tabla-wrapper">
+            <table class="tabla-coches">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var coche in Model)
+                    {
+                        <tr>
+                            <td>@coche.Id</td>
+                            <td><strong>@coche.Placa</strong></td>
+                            <td>@coche.Marca</td>
+                            <td>@coche.Modelo</td>
+                            <td>@coche.Anio</td>
+                            <td>
+                                <span class="badge badge-@(coche.Tipo.Replace(" ", "").ToLower())">
+                                    @coche.Tipo
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <p class="total-registros">Total de vehículos: <strong>@Model.Count</strong></p>
+    }
+    else
+    {
+        <div class="sin-datos">
+            <p>?? No hay vehículos registrados en la base de datos.</p>
+            <a href="@Url.Action("Alta", "Coches")" class="btn btn-primary">Registrar Primer Vehículo</a>
+        </div>
+    }
+</div>
+
+<style>
+    /* estilos pa el listado */
+    .listado-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .listado-container h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+
+    .tabla-wrapper {
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+
+    .tabla-coches {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .tabla-coches thead {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .tabla-coches th {
+        padding: 15px;
+        text-align: left;
+        font-weight: bold;
+        border-bottom: 3px solid #2980b9;
+    }
+
+    .tabla-coches td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ecf0f1;
+    }
+
+    .tabla-coches tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .tabla-coches tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-size: 0.85em;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .badge-suv {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .badge-pickup {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    .badge-sedan {
+        background-color: #27ae60;
+        color: white;
+    }
+
+    .total-registros {
+        text-align: right;
+        margin-top: 15px;
+        font-size: 1.1em;
+        color: #7f8c8d;
+    }
+
+    .sin-datos {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .sin-datos p {
+        font-size: 1.3em;
+        color: #7f8c8d;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>

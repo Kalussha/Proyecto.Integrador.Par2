@@ -1,0 +1,211 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Consultar Vehículo";
+}
+
+<!-- Form de consulta, reemplaza al frmconsultar de windows forms -->
+<div class="form-container">
+    <h2>?? Consultar Vehículo</h2>
+    <a href="@Url.Action("Index", "Coches")" class="btn-back">? Regresar al Menú</a>
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Mensaje
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- Formulario pa buscar la placa -->
+    <form method="post" asp-action="Consultar" class="form-consultar">
+        <div class="form-group">
+            <label for="placa">Placa del Vehículo:</label>
+            <input type="text" id="placa" name="placa" class="form-control" required maxlength="10" placeholder="Ingrese la placa" />
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">?? Consultar</button>
+        </div>
+    </form>
+
+    @if (ViewBag.Coche != null)
+    {
+        <!-- Mostramos los datos del coche encontrado -->
+        var coche = ViewBag.Coche;
+        <div class="resultado-box">
+            <h3>?? Datos del Vehículo</h3>
+            
+            <div class="datos-coche">
+                <div class="dato-item">
+                    <span class="dato-label">Placa:</span>
+                    <span class="dato-valor">@coche.Placa</span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Marca:</span>
+                    <span class="dato-valor">@coche.Marca</span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Modelo:</span>
+                    <span class="dato-valor">@coche.Modelo</span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Año:</span>
+                    <span class="dato-valor">@coche.Anio</span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Tipo:</span>
+                    <span class="dato-valor">@coche.Tipo</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    /* estilos pa el formulario de consulta */
+    .form-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+    .resultado-box {
+        background-color: #e8f8f5;
+        border: 2px solid #1abc9c;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    .resultado-box h3 {
+        color: #16a085;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .datos-coche {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .dato-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px;
+        border-bottom: 1px solid #ecf0f1;
+    }
+
+    .dato-item:last-child {
+        border-bottom: none;
+    }
+
+    .dato-label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .dato-valor {
+        color: #34495e;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>

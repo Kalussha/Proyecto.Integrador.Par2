@@ -1,0 +1,256 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Modificar Vehículo";
+}
+
+<!-- Form de cambios, reemplaza al frmcambios de windows forms -->
+<div class="form-container">
+    <h2>?? Modificar Datos de Vehículo</h2>
+    <a href="@Url.Action("Index", "Coches")" class="btn-back">? Regresar al Menú</a>
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Exito"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Mensaje
+        </div>
+    }
+
+    @if (ViewBag.CocheEncontrado == null)
+    {
+        <!-- Formulario pa buscar la placa -->
+        <form method="post" asp-action="BuscarParaEditar" class="form-buscar">
+            <div class="form-group">
+                <label for="placa">Placa del Vehículo a Modificar:</label>
+                <input type="text" id="placa" name="placa" class="form-control" required maxlength="10" placeholder="Ingrese la placa" />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">?? Buscar</button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <!-- Formulario pa editar los datos del coche -->
+        var coche = ViewBag.CocheEncontrado;
+        <form method="post" asp-action="GuardarCambios" class="form-editar">
+            <input type="hidden" name="Placa" value="@coche.Placa" />
+
+            <div class="form-group">
+                <label>Placa:</label>
+                <input type="text" class="form-control" value="@coche.Placa" readonly disabled />
+                <small class="form-text">La placa no se puede modificar</small>
+            </div>
+
+            <div class="form-group">
+                <label for="Marca">Marca:</label>
+                <input type="text" id="Marca" name="Marca" class="form-control" value="@coche.Marca" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Modelo">Modelo:</label>
+                <input type="text" id="Modelo" name="Modelo" class="form-control" value="@coche.Modelo" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Anio">Año:</label>
+                <select id="Anio" name="Anio" class="form-control" required>
+                    @foreach (var anio in ViewBag.Anios)
+                    {
+                        <option value="@anio" selected="@(anio == coche.Anio)">@anio</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Vehículo:</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="Tipo" value="SUV" checked="@(coche.Tipo == "SUV")" required />
+                        SUV
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Tipo" value="PICK UP" checked="@(coche.Tipo == "PICK UP")" required />
+                        PICK UP
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Tipo" value="SEDAN" checked="@(coche.Tipo == "SEDAN")" required />
+                        SEDAN
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">?? Guardar Cambios</button>
+                <a href="@Url.Action("Cambios")" class="btn btn-secondary">? Cancelar</a>
+            </div>
+        </form>
+    }
+</div>
+
+<style>
+    /* estilos pa el formulario de cambios */
+    .form-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: bold;
+    }
+
+    .form-text {
+        display: block;
+        margin-top: 5px;
+        color: #7f8c8d;
+        font-size: 0.9em;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    .form-control:disabled {
+        background-color: #ecf0f1;
+        cursor: not-allowed;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 20px;
+    }
+
+    .radio-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-weight: normal;
+    }
+
+    .radio-label input[type="radio"] {
+        cursor: pointer;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+    .btn-success {
+        background-color: #27ae60;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #229954;
+    }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+</style>
